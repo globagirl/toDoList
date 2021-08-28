@@ -64,12 +64,12 @@ class ToDoListController extends AbstractController
     /**
      * @Route("/delete/{id}", name="delete_task")
      */
-    public function delete($id)
+    public function delete(Task $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $task = $em->getRepository(Task::class)->find($id);
-
-        $em->remove($task);
+//        $task = $em->getRepository(Task::class)->find($id);
+//composer require sensio/framework-extra-bundle :: Param Converter
+        $em->remove($id);
         $em->flush();
 
         $this->addFlash(
