@@ -5,12 +5,17 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Khawla TOUATI"/>
+    <meta property="og:title" content="KT: TO DO LIST" />
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
-    <title>{% block title %}{% endblock %}</title>
+    <link rel="icon" type="image/jpg" href="{{ asset('images/icon.png') }}"/>
+    <title>{% block title %}My To Do List - Home{% endblock %}</title>
 </head>
 
 <body>
 {% block body %}{% endblock %}
+<div class="footer">
+    <p>Copyright © <small><a href="https://www.linkedin.com/in/khawla-touati-374298165/" target="_blank">Kh.T</a></small>. All rights reserved</p>
+</div>
 </body>
-
 </html>

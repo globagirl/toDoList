@@ -3,7 +3,17 @@
 {% block body %}
 
     <div class="header">
+        <a onclick="return confirm('Are you sure to delete all tasks?')" href="{{ path ('delete_all')}}"
+           data-toggle="dropdown" data-placement="top" title="Delete All Tasks" aria-haspopup="true" >
+            <span class="delete">Delete All Tasks</span>
+        </a>
         <h2>My To Do List</h2>
+        {% for message in app.flashes('notice') %}
+            <div class="alert">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                <strong>Note: </strong>{{ message }}
+            </div>
+        {% endfor %}
         <form method="POST" action="{{ path ('create_task') }}">
             <input name="title" type="text" id="myInput" placeholder="Task title..." />
             <button type="submit" class="addBtn">Add a task</button>
@@ -23,4 +33,5 @@
             </li>
         {% endfor %}
     </ul>
+
 {% endblock %}

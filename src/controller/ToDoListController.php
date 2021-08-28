@@ -38,6 +38,11 @@ class ToDoListController extends AbstractController
         $em->persist($task);
         $em->flush();
 
+        $this->addFlash(
+            'notice',
+            'Task Created !'
+        );
+
         return $this->redirectToRoute('to_do_list');
     }
 
@@ -67,9 +72,33 @@ class ToDoListController extends AbstractController
         $em->remove($task);
         $em->flush();
 
+        $this->addFlash(
+            'notice',
+            'Task deleted !'
+        );
+
         return $this->redirectToRoute('to_do_list');
     }
 
+    /**
+     * @Route("/deleteAll", name="delete_all")
+     */
+    public function deleteAll()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $tasks = $em->getRepository(Task::class)->findAll();
+        for ($i=0; $i<count($tasks); $i++){
+            $em->remove($tasks[$i]);
+        }
+        $em->flush();
+
+        $this->addFlash(
+            'notice',
+            'All tasks has been Deleted !'
+        );
+
+        return $this->redirectToRoute('to_do_list');
+    }
     //    /**
 //     * @Route("/to/do/list", name="to_do_list")
 //     */
