@@ -39,10 +39,10 @@
                                             <span class="task-title-sp">{{ task.title }}</span>
                                             {% if task.status %}
                                                 <span class="badge bg-theme">Done</span>
-                                            {% elseif task.deadline | date < "now" | date %}
-                                                <span class="badge bg-important">overdue {{ task.deadline|date("d/m/Y") }}</span>
                                             {% elseif task.deadline | date < "now" | date_modify("+4 day") | date %}
                                                 <span class="badge bg-warning">{{ task.deadline|date("d/m/Y") }}</span>
+                                            {% elseif task.deadline | date < "now" | date %}
+                                                <span class="badge bg-important">overdue {{ task.deadline|date("d/m/Y") }}</span>
                                             {% else %}
                                                 <span class="badge bg-theme">{{ task.deadline|date("d/m/Y") }}</span>
                                             {% endif %}
