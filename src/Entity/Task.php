@@ -25,7 +25,17 @@ class Task
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $status;
+    private $status=0;//waiting
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $deadline;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $created_at;
 
     public function getId(): ?int
     {
@@ -52,6 +62,30 @@ class Task
     public function setStatus(?bool $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getDeadline(): ?\DateTimeInterface
+    {
+        return $this->deadline;
+    }
+
+    public function setDeadline(\DateTimeInterface $deadline): self
+    {
+        $this->deadline = $deadline;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $created_at): self
+    {
+        $this->created_at = $created_at;
 
         return $this;
     }

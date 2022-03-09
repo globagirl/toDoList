@@ -21,11 +21,39 @@ class ToDoListController extends AbstractController
     }
 
     /**
+     * @Route("/dashboard", name="dashboard")
+     */
+    public function dashboard()
+    {
+        $total= $this->getDoctrine()->getRepository(Task::class)->CountAllRows();
+        $done= $this->getDoctrine()->getRepository(Task::class)->CountAllDone();
+        $overdue= $this->getDoctrine()->getRepository(Task::class)->Countoverdue();
+
+        return $this->render('dashboard.html.twig',['total'=>$total,'done'=>$done,'overdue'=>$overdue]);
+    }
+
+    /**
+     * @Route("/stat", name="stat", methods={"POST"})
+     */
+    public function stat(Request $request)
+    {
+        $date1= trim($request->request->get('date1')); //trim(): remove free spaces from the sides
+        $date2= trim($request->request->get('date2'));
+
+        $total= $this->getDoctrine()->getRepository(Task::class)->CountRowsByDateRange($date1,$date2);
+        $done=0;
+        $overdue=0;
+
+        return $this->render('dashboard.html.twig',['total'=>$total,'done'=>$done,'overdue'=>$overdue]);
+    }
+
+    /**
      * @Route("/create", name="create_task", methods={"POST"})
      */
     public function create(Request $request)
     {
         $title= trim($request->request->get('title')); //trim(): remove free spaces from the sides
+        $deadline= trim($request->request->get('deadline'));
         if (empty($title))
             return $this->redirectToRoute('to_do_list');
 
@@ -34,7 +62,8 @@ class ToDoListController extends AbstractController
 
         $task= new Task();
         $task->setTitle($title);
-
+        $task->setDeadline(\DateTime::createFromFormat('Y-m-d', $deadline));
+        $task->setCreatedAt(new \DateTime());
         $em->persist($task);
         $em->flush();
 

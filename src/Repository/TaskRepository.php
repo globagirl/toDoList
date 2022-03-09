@@ -35,6 +35,42 @@ class TaskRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function CountRowsByDateRange($date1,$date2)
+    {
+        return $this->createQueryBuilder('t')
+            ->select('count(t.id)')
+            ->add('where', "t.deadline between '$date1' and '$date2'")
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function CountAllRows()
+    {
+        return $this->createQueryBuilder('t')
+            ->select('count(t.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+    public function CountAllDone()
+    {
+        return $this->createQueryBuilder('t')
+            ->select('count(t.id)')
+            ->andWhere('t.status = :val')
+            ->setParameter('val', '1')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+    public function Countoverdue()
+    {
+        return $this->createQueryBuilder('t')
+            ->select('count(t.id)')
+            ->andWhere('t.status = :val')
+            ->andWhere('t.deadline < :now ')
+            ->setParameter('val', '0')
+            ->setParameter('now', new \DateTime('now'))
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 
     /*
     public function findOneBySomeField($value): ?Task
